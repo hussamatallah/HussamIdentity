@@ -1,0 +1,54 @@
+﻿@model IEnumerable<HussamIdentity.Models.catagorys.Category>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+@{
+    ViewData["Title"] = "AllCategories";
+}
+
+<h1>AllCategories</h1>
+@if (signInManager.IsSignedIn(User))
+{
+    if (User.IsInRole("Admin"))
+    {
+        <p>
+            <a asp-action="Create" asp-controller="Category" class="btn btn-warning">Create New</a>
+        </p>
+    }
+}
+
+<table class="table">
+    <thead>
+        <tr>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-warning">Details</a> |
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-warning">Delete</a>
+
+
+                        }
+                    }
+                   
+
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
